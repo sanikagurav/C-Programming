@@ -1,0 +1,85 @@
+#include<stdio.h>
+#define MAX 50
+struct details
+{
+	int product_id;
+	char product_name[20];
+	float product_price;
+	float gst;
+};
+struct details s[MAX];
+FILE *fp, *fp1;
+void add_product(int size)
+{
+	int i;
+	fp=fopen("product.txt", "a");
+	for(i=0; i<size; i++)
+	{
+		printf("\n Enter the name of product:");
+		scanf("%s", s[i].product_name);
+		printf("\n Enter product ID:");
+		scanf("%d", &s[i].product_id);
+		printf("\n Enter the product price:");
+		scanf("%f", &s[i].product_price);
+		printf("\n Enter the GST:");
+		scanf("%f", &s[i].gst);
+		fprintf(fp, "%d\n%s\n%.2f\n%.2f\n", s[i].product_id, s[i].product_name, s[i].product_price, s[i].gst);
+		printf("\n");
+	}
+	fclose(fp);
+}
+void delete_product(int size)
+{
+	int i, delid, flag=0;
+	fp1=fopen("temp.txt", "w");
+	printf("\n Enter the info of product to deleted:");
+	scanf("%d%s%f%f", &s[0].product_id, &s[0].product_name, &s[0].product_price, &s[0].gst);
+	for(i=0; i<size; i++)
+	{
+		while(fscanf(fp, "%d%s%f%f", &s[i].product_id, &s[i].product_name, &s[i].product_price, &s[i].gst)!=EOF);
+	{
+		fprintf(fp1, "%d\t%s\t%.2f\t%.2f\n", s[i].product_id, s[i].product_name, s[i].product_price, s[i].gst);
+	}
+	}
+	rename("temp.txt", "product.txt");
+	remove("product.txt");	
+}
+void display_product(int size)
+{
+	int i;
+	for(i=0; i<size; i++)
+	{
+    	printf("%d\t%s\t%f\t%f\n", s[i].product_id, s[i].product_name, s[i].product_price, s[i].gst);
+}
+}
+void main()
+{
+	int choice=0, n;
+	printf("\n Enter how many product do you want to insert:");
+	scanf("%d", &n);
+	while(choice<4)
+	{
+		printf("\n 1. Add new Product");
+		printf("\n 2. Delete the Product");
+		printf("\n 3. Display Product");
+		printf("\n 4. Exit");
+		printf("\n Enter your choice:");
+		scanf("%d", &choice);
+
+		switch(choice)
+		{
+			case 1:	add_product(n);
+                    break;
+
+			case 2:	delete_product(n);
+					break;
+			
+			case 3:	display_product(n);
+                    break;
+
+			default: printf("\n Make proper choice");
+		}
+	}
+	fclose(fp);
+	fclose(fp1);
+}
