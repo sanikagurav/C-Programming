@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert a node at the end of the circular linked list
+void insertAtEnd(struct Node** head, int data) {
+    struct Node* newNode = createNode(data);
+    if (*head == NULL) {
+        *head = newNode;
+        newNode->next = *head;
+    } else {
+        struct Node* temp = *head;
+        while (temp->next != *head) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        newNode->next = *head;
+    }
+}
+
+// Function to interchange two adjacent nodes in a circular linked list
+void interchangeAdjacentNodes(struct Node** head, int key) {
+    if (*head == NULL || (*head)->next == NULL) {
+        printf("Circular Linked List is empty or has only one node.\n");
+        return;
+    }
+
+    struct Node* prev = NULL;
+    struct Node* current = *head;
+
+    // Find the nodes with the given key and its next node
+    while (current->data != key && current->next != *head) {
+        prev = current;
+        current = current->next;
+    }
+
+    // Check if the key is found
+    if (current->data != key) {
+        printf("Key not found in the Circular Linked List.\n");
+        return;
+    }
+
+    // Interchange the adjacent nodes
+    if (prev == NULL) {
+        // If the key is in the first node
+        struct Node* last = *head;
+        while (last->next != *head) {
+            last = last->next;
+        }
+        *head = current->next;
+        last->next = *head;
+        current->next = (*head)->next;
+        (*head)->next = current;
+    } else {
+        prev->next = current->next;
+        current->next = current->next->next;
+        prev->next->next = current;
+    }
+}
+
+// Function to print the circular linked list
+void printList(struct Node* head) {
+    struct Node* temp = head;
+    if (head != NULL) {
+        do {
+            printf("%d ", temp->data);
+            temp = temp->next;
+        } while (temp != head);
+        printf("\n");
+    }
+}
+
+// Main function
+int main() {
+    struct Node* head = NULL;
+
+    // Insert nodes into the circular linked list
+    insertAtEnd(&head, 1);
+    insertAtEnd(&head, 2);
+    insertAtEnd(&head, 3);
+    insertAtEnd(&head, 4);
+    insertAtEnd(&head, 5);
+
+    printf("Original Circular Linked List: ");
+    printList(head);
+
+    // Interchange two adjacent nodes with the given key
+    interchangeAdjacentNodes(&head, 3);
+
+    printf("Circular Linked List after interchanging nodes with key 3: ");
+    printList(head);
+
+    return 0;
+}
