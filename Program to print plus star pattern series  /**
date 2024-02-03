@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+int main()
+{
+    int i, j, N;
+
+    printf("Enter N: ");
+    scanf("%d", &N);
+
+    // Run an outer loop from 1 to N*2-1
+    for(i=1; i<=(N * 2 - 1); i++)
+    {
+        // For the center horizontal plus
+        if(i == N)
+        {
+            for(j=1; j<=(N * 2 - 1); j++)
+            {
+                printf("+");
+            }
+        }
+        else
+        {
+            // For spaces before single plus sign
+            for(j=1; j<=N-1; j++)
+            {
+                printf(" ");
+            }
+            printf("+");
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}
