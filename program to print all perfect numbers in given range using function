@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+
+/* Function declarations */
+int isPerfect(int num);
+void printPerfect(int start, int end);
+
+
+
+int main()
+{
+    int start, end;
+    
+    /* Input lower and upper limit to print perfect numbers */
+    printf("Enter lower limit to print perfect numbers: ");
+    scanf("%d", &start);
+    printf("Enter upper limit to print perfect numbers: ");
+    scanf("%d", &end);
+    
+    printf("All perfect numbers between %d to %d are: \n", start, end);
+    printPerfect(start, end);
+    
+    return 0;
+}
+
+
